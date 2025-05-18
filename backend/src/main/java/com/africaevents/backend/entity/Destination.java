@@ -5,31 +5,24 @@ import lombok.Data;
 
 import java.util.List;
 
-@Data
 @Entity
+@Data
 @Table(name = "destinations")
 public class Destination {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-    private String slug;
     private String description;
-    private String image;
     private String history;
+    private String image;
+    private String slug;
+
+    @ElementCollection
+    private List<Highlight> highlights;
 
     @ElementCollection
     private List<String> gallery;
-
-    @ElementCollection
-    @CollectionTable(name = "destination_highlights")
-    private List<Highlight> highlights;
-
-    @Embeddable
-    @Data
-    public static class Highlight {
-        private String name;
-        private String description;
-    }
 }

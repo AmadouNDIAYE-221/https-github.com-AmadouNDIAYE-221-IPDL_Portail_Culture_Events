@@ -15,7 +15,8 @@ public class RegisterRequest {
 
     @NotBlank
     private String password;
+    
+    private String phone;
 
-    @NotBlank
-    private String role; // "VISITOR" or "ORGANIZER"
+    private String role; // "VISITOR" ou "ORGANIZER"
 }

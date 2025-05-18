@@ -1,12 +1,9 @@
 package com.africaevents.backend.controller;
 
-import com.africaevents.backend.dto.EventRequest;
 import com.africaevents.backend.entity.Event;
-import com.africaevents.backend.entity.User;
 import com.africaevents.backend.service.EventService;
-import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,31 +14,29 @@ public class EventController {
 
     private final EventService eventService;
 
+    @Autowired
     public EventController(EventService eventService) {
         this.eventService = eventService;
     }
 
     @PostMapping
-    public ResponseEntity<Event> createEvent(@Valid @RequestBody EventRequest request, @AuthenticationPrincipal User user) {
-        Event event = eventService.createEvent(request, user.getId());
-        return ResponseEntity.ok(event);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Event> getEvent(@PathVariable Long id) {
-        Event event = eventService.findById(id);
-        return ResponseEntity.ok(event);
+    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
+        Event createdEvent = eventService.saveEvent(event);
+        return ResponseEntity.ok(createdEvent);
     }
 
     @GetMapping
     public ResponseEntity<List<Event>> getAllEvents() {
-        List<Event> events = eventService.findAll();
-        return ResponseEntity.ok(events);
+        return ResponseEntity.ok(eventService.getAllEvents());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Event> getEventById(@PathVariable Long id) {
+        return ResponseEntity.ok(eventService.getEventById(id));
     }
 
     @GetMapping("/location/{location}")
     public ResponseEntity<List<Event>> getEventsByLocation(@PathVariable String location) {
-        List<Event> events = eventService.findByLocation(location);
-        return ResponseEntity.ok(events);
+        return ResponseEntity.ok(eventService.getEventsByLocation(location));
     }
 }

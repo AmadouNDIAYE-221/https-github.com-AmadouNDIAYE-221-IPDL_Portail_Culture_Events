@@ -1,3 +1,4 @@
+// Correction 4 : Controller de Réservation mis à jour pour correspondre aux endpoints attendus
 package com.africaevents.backend.controller;
 
 import com.africaevents.backend.dto.ReservationRequest;

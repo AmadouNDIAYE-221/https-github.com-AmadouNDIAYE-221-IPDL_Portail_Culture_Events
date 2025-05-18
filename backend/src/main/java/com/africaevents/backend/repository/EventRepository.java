@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> findByLocationContainingIgnoreCase(String location);
+
+    List<Event> findByLocation(String location);
 }
