@@ -1,0 +1,70 @@
+# Dépendances
+node_modules/
+/.pnp
+.pnp.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environnement de production/développement
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Fichiers de build
+/frontend/.next/
+/frontend/out/
+/frontend/build
+/backend/target/
+/backend/build/
+
+# Fichiers de cache
+.cache/
+.next/
+.gradle/
+.sass-cache/
+
+# Fichiers de logs
+logs
+*.log
+
+# Fichiers systèmes
+.DS_Store
+Thumbs.db
+
+# Fichiers d'éditeurs
+.idea/
+.vscode/
+*.swp
+*.swo
+.project
+.classpath
+.settings/
+
+# Fichiers temporaires et backups
+*~
+*.bak
+*.tmp
+
+# Fichiers de compilation Java
+*.class
+
+# Fichiers spécifiques à l'application
+/backend/uploads/*
+!/backend/uploads/.gitkeep
+
+# Fichiers de tests et coverage
+/coverage
+/backend/.mvn/
+
+# Fichiers générés ou binaires
+/dist
+/dist-types
+*.gz
+*.tgz
+*.zip
+*.jar
+*.war
+*.ear
