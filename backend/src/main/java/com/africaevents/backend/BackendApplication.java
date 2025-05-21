@@ -19,27 +19,39 @@ public class BackendApplication {
 	@Bean
     CommandLineRunner initData(DestinationRepository destinationRepository) {
         return args -> {
-            // Créer une destination : Paris
-            Destination paris = new Destination();
-            paris.setName("Paris");
-            paris.setDescription("Ville lumière");
-            paris.setHistory("Riche histoire");
-            paris.setImage("https://example.com/paris.jpg");
-            paris.setSlug("paris");
-            paris.setHighlights(Arrays.asList(new Highlight("Tour Eiffel", "Symbole de Paris")));
-            paris.setGallery(Arrays.asList("https://example.com/paris1.jpg", "https://example.com/paris2.jpg"));
-            destinationRepository.save(paris);
+            // Vérifier si Paris existe déjà avant de le créer
+            if (destinationRepository.findAllBySlug("paris").isEmpty()) {
+                System.out.println("Initialisation de la destination Paris");
+                // Créer une destination : Paris
+                Destination paris = new Destination();
+                paris.setName("Paris");
+                paris.setDescription("Ville lumière");
+                paris.setHistory("Riche histoire");
+                paris.setImage("https://example.com/paris.jpg");
+                paris.setSlug("paris");
+                paris.setHighlights(Arrays.asList(new Highlight("Tour Eiffel", "Symbole de Paris")));
+                paris.setGallery(Arrays.asList("https://example.com/paris1.jpg", "https://example.com/paris2.jpg"));
+                destinationRepository.save(paris);
+            } else {
+                System.out.println("La destination Paris existe déjà");
+            }
 
-            // Créer une autre destination : Cape Town
-            Destination capeTown = new Destination();
-            capeTown.setName("Cape Town");
-            capeTown.setDescription("Ville au bord de l'océan");
-            capeTown.setHistory("Histoire coloniale");
-            capeTown.setImage("https://example.com/capetown.jpg");
-            capeTown.setSlug("cape-town");
-            capeTown.setHighlights(Arrays.asList(new Highlight("Table Mountain", "Vue panoramique")));
-            capeTown.setGallery(Arrays.asList("https://example.com/capetown1.jpg", "https://example.com/capetown2.jpg"));
-            destinationRepository.save(capeTown);
+            // Vérifier si Cape Town existe déjà avant de le créer
+            if (destinationRepository.findAllBySlug("cape-town").isEmpty()) {
+                System.out.println("Initialisation de la destination Cape Town");
+                // Créer une autre destination : Cape Town
+                Destination capeTown = new Destination();
+                capeTown.setName("Cape Town");
+                capeTown.setDescription("Ville au bord de l'océan");
+                capeTown.setHistory("Histoire coloniale");
+                capeTown.setImage("https://example.com/capetown.jpg");
+                capeTown.setSlug("cape-town");
+                capeTown.setHighlights(Arrays.asList(new Highlight("Table Mountain", "Vue panoramique")));
+                capeTown.setGallery(Arrays.asList("https://example.com/capetown1.jpg", "https://example.com/capetown2.jpg"));
+                destinationRepository.save(capeTown);
+            } else {
+                System.out.println("La destination Cape Town existe déjà");
+            }
         };
     }
 

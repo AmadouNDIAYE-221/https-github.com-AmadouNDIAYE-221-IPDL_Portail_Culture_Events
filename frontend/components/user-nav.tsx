@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -15,23 +14,24 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { CalendarDays, LogOut, Settings, User, UserPlus } from "lucide-react"
+import { useAuth } from "@/hooks/useAuth"
 
 export function UserNav() {
   const router = useRouter()
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const { user, isAuthenticated, logout } = useAuth()
 
   const handleLogout = () => {
-    setIsLoggedIn(false)
+    logout()
   }
 
-  if (!isLoggedIn) {
+  if (!isAuthenticated) {
     return (
       <div className="flex items-center gap-2">
         <Button variant="outline" asChild>
-          <Link href="/login">Connexion</Link>
+          <Link href="/login">Se connecter</Link>
         </Button>
         <Button asChild className="bg-amber-600 hover:bg-amber-700">
-          <Link href="/register">Inscription</Link>
+          <Link href="/register">S'inscrire</Link>
         </Button>
       </div>
     )
@@ -49,8 +49,8 @@ export function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">Utilisateur</p>
-            <p className="text-xs leading-none text-muted-foreground">utilisateur@example.com</p>
+            <p className="text-sm font-medium leading-none">{user?.firstName} {user?.lastName}</p>
+            <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

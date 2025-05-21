@@ -51,7 +51,14 @@ const sheetVariants = cva(
 
 interface SheetContentProps
   extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
-    VariantProps<typeof sheetVariants> {}
+    VariantProps<typeof sheetVariants>,
+    React.HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactNode;
+  side?: "top" | "right" | "bottom" | "left";
+  className?: string;
+  style?: React.CSSProperties;
+  [key: `data-${string}`]: string | boolean;
+}
 
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Content>,

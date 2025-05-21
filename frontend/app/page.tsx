@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Search, Calendar, MapPin, Clock } from "lucide-react"
-import { popularEvents } from "@/data/events"
+import { EventList } from "@/components/events/event-list"
 
 export default function Home() {
   return (
@@ -72,55 +72,7 @@ export default function Home() {
       <section className="container px-4 md:px-6">
         <div className="flex flex-col gap-4">
           <h2 className="text-2xl font-bold tracking-tight text-amber-900">Événements populaires</h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {popularEvents.map((event) => (
-              <Link href={`/events/${event.id}`} key={event.id} className="group">
-                <Card className="overflow-hidden transition-all hover:shadow-md">
-                  <div className="aspect-video overflow-hidden">
-                    <Image
-                      src={event.image || "/placeholder.svg"}
-                      alt={event.title}
-                      width={600}
-                      height={400}
-                      className="object-cover transition-transform group-hover:scale-105"
-                    />
-                  </div>
-                  <CardHeader className="p-4">
-                    <CardTitle className="line-clamp-1">{event.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-4 pt-0">
-                    <div className="flex flex-col gap-2 text-sm">
-                      <div className="flex items-center gap-2 text-muted-foreground">
-                        <Calendar className="h-4 w-4" />
-                        <span>{event.date}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-muted-foreground">
-                        <MapPin className="h-4 w-4" />
-                        <span>{event.location}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-muted-foreground">
-                        <Clock className="h-4 w-4" />
-                        <span>{event.time}</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                  <CardFooter className="p-4 pt-0">
-                    <div className="flex items-center justify-between w-full">
-                      <span className="font-bold">{event.price}</span>
-                      <Button size="sm" variant="outline">
-                        Voir détails
-                      </Button>
-                    </div>
-                  </CardFooter>
-                </Card>
-              </Link>
-            ))}
-          </div>
-          <div className="flex justify-center mt-6">
-            <Button variant="outline" asChild>
-              <Link href="/events">Voir tous les événements</Link>
-            </Button>
-          </div>
+          <EventList limit={6} showLoadMore={false} />
         </div>
       </section>
 

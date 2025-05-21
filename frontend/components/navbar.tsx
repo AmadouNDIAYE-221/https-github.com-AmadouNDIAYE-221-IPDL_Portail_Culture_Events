@@ -5,9 +5,11 @@ import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Search } from "lucide-react"
 import { UserNav } from "@/components/user-nav"
+import { useAuth } from "@/hooks/useAuth"
 
 export function Navbar() {
   const pathname = usePathname()
+  const { isAuthenticated, user } = useAuth()
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-amber-50">
@@ -41,6 +43,14 @@ export function Navbar() {
             >
               À propos
             </Link>
+            {isAuthenticated && (
+              <Link
+                href="/dashboard"
+                className={`text-sm font-medium transition-colors ${pathname.startsWith("/dashboard") ? "text-amber-900" : "text-muted-foreground hover:text-amber-900"}`}
+              >
+                Dashboard
+              </Link>
+            )}
           </nav>
         </div>
         <div className="flex items-center gap-4">

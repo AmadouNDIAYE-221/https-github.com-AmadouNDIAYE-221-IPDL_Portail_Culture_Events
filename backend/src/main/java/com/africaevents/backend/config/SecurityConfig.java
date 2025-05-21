@@ -37,6 +37,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
                 .requestMatchers("/api/events/**", "/api/destinations/**").permitAll()
+                // Autoriser l'accès public aux endpoints d'upload et de téléchargement d'images
+                .requestMatchers("/api/upload/**", "/api/uploads/**").permitAll()
                 .requestMatchers("/api/users/**").authenticated()
                 .requestMatchers("/api/reservations/event/*/admin").hasAuthority("ROLE_ORGANIZER")
                 .requestMatchers("/api/reservations/**").authenticated()
