@@ -37,18 +37,52 @@ export function EventList({
 
   // Apply filters
   const filteredEvents = events
-    // Filter by location
-    .filter(event => !filterLocation || (event.location && event.location.includes(filterLocation)))
-    // Filter by category - Note: category might be in destinationName or custom field
-    .filter(event => !filterCategory || 
-      (event.destinationName && event.destinationName.includes(filterCategory)) ||
-      (event.category && event.category === filterCategory)
-    )
-    // Filter by search query (on title or description)
-    .filter(event => !filterQuery || 
-      event.title.toLowerCase().includes(filterQuery.toLowerCase()) || 
-      (event.description && event.description.toLowerCase().includes(filterQuery.toLowerCase()))
-    )
+    // Filter by location - amélioré pour prendre en compte multiple champs et normalisation
+    .filter(event => {
+      if (!filterLocation) return true;
+      
+      const normalizedFilter = filterLocation.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      
+      // Chercher dans tous les champs qui pourraient contenir des informations de lieu
+      const locationMatches = event.location && event.location.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(normalizedFilter);
+      const destinationMatches = event.destinationName && event.destinationName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(normalizedFilter);
+      
+      return locationMatches || destinationMatches;
+    })
+    // Filter by category - amélioration de la comparaison avec normalisation
+    .filter(event => {
+      if (!filterCategory) return true;
+      
+      const normalizedFilter = filterCategory.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      
+      // Vérifier la catégorie explicite
+      const categoryMatches = event.category && 
+        event.category.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(normalizedFilter);
+      
+      // Vérifier aussi dans la destination qui peut contenir des infos de catégorie
+      const destinationMatches = event.destinationName && 
+        event.destinationName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(normalizedFilter);
+      
+      return categoryMatches || destinationMatches;
+    })
+    // Filter by search query - recherche améliorée avec normalisation pour accents et casse
+    .filter(event => {
+      if (!filterQuery) return true;
+      
+      const normalizedQuery = filterQuery.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      
+      // Recherche dans tous les champs pertinents
+      const titleMatches = event.title.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(normalizedQuery);
+      const descriptionMatches = event.description && 
+        event.description.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(normalizedQuery);
+      const locationMatches = event.location && 
+        event.location.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(normalizedQuery);
+      const destinationMatches = event.destinationName && 
+        event.destinationName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(normalizedQuery);
+      
+      // Retourner vrai si le terme est trouvé dans l'un des champs
+      return titleMatches || descriptionMatches || locationMatches || destinationMatches;
+    })
     // Filter by date range
     .filter(event => {
       if (!filterStartDate && !filterEndDate) return true;
