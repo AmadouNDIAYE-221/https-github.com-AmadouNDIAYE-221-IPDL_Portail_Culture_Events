@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/components/ui/use-toast"
 import { Spinner } from "@/components/ui/spinner"
 import { authService } from "@/lib/api"
-import { AlertCircle } from "lucide-react"
+import { AlertCircle, User, Mail, Lock, Phone, Users } from "lucide-react"
 import { AuthLayout } from "@/components/auth/auth-layout"
 
 export default function RegisterPage() {
@@ -123,108 +123,171 @@ export default function RegisterPage() {
 
   return (
     <AuthLayout
-      title="Créer un compte"
-      description="Inscrivez-vous pour accéder à toutes les fonctionnalités"
+      title="Rejoignez notre communauté"
+      description="Créez votre compte pour vivre des expériences culturelles uniques"
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-5">
         {error && (
-          <div className="rounded-md bg-red-50 p-3 text-sm text-red-700">
-            <div className="flex items-center gap-2">
-              <AlertCircle className="h-4 w-4" />
-              <span>{error}</span>
-            </div>
+          <div className="rounded-lg bg-red-50 p-3 text-sm text-red-600 flex items-start gap-2">
+            <AlertCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
+            <p>{error}</p>
           </div>
         )}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="firstName">Prénom</Label>
-            <Input 
-              id="firstName" 
-              placeholder="Prénom" 
-              required 
-              value={formData.firstName}
-              onChange={handleInputChange}
-            />
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="space-y-3">
+            <Label htmlFor="firstName" className="text-base font-medium">Prénom</Label>
+            <div className="relative">
+              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-5 w-5" />
+              <Input 
+                id="firstName" 
+                placeholder="Prénom" 
+                required 
+                className="pl-10 py-6 rounded-lg"
+                value={formData.firstName}
+                onChange={handleInputChange}
+                autoComplete="given-name"
+              />
+            </div>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="lastName">Nom</Label>
+          
+          <div className="space-y-3">
+            <Label htmlFor="lastName" className="text-base font-medium">Nom</Label>
+            <div className="relative">
+              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-5 w-5" />
+              <Input 
+                id="lastName" 
+                placeholder="Nom" 
+                required 
+                className="pl-10 py-6 rounded-lg"
+                value={formData.lastName}
+                onChange={handleInputChange}
+                autoComplete="family-name"
+              />
+            </div>
+          </div>
+        </div>
+        
+        <div className="space-y-3">
+          <Label htmlFor="email" className="text-base font-medium">Email</Label>
+          <div className="relative">
+            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-5 w-5" />
             <Input 
-              id="lastName" 
-              placeholder="Nom" 
+              id="email" 
+              type="email" 
+              placeholder="votre@email.com" 
               required 
-              value={formData.lastName}
+              className="pl-10 py-6 rounded-lg"
+              value={formData.email}
               onChange={handleInputChange}
+              autoComplete="email"
             />
           </div>
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input 
-            id="email" 
-            type="email" 
-            placeholder="votre@email.com" 
-            required 
-            value={formData.email}
-            onChange={handleInputChange}
-          />
+        
+        <div className="space-y-3">
+          <Label htmlFor="phone" className="text-base font-medium">Téléphone <span className="text-sm text-gray-500 font-normal">(optionnel)</span></Label>
+          <div className="relative">
+            <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-5 w-5" />
+            <Input 
+              id="phone" 
+              type="tel" 
+              placeholder="+221 XX XXX XX XX" 
+              className="pl-10 py-6 rounded-lg"
+              value={formData.phone}
+              onChange={handleInputChange}
+              autoComplete="tel"
+            />
+          </div>
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="userType">Type d'utilisateur</Label>
-          <Select 
-            defaultValue="visitor" 
-            onValueChange={handleRoleChange}
+        
+        <div className="space-y-3">
+          <Label htmlFor="userType" className="text-base font-medium">Type d'utilisateur</Label>
+          <div className="relative">
+            <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-5 w-5 z-10" />
+            <Select 
+              defaultValue="visitor" 
+              onValueChange={handleRoleChange}
+            >
+              <SelectTrigger id="userType" className="pl-10 py-6 rounded-lg">
+                <SelectValue placeholder="Sélectionnez votre profil" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="visitor">Visiteur / Touriste</SelectItem>
+                <SelectItem value="organizer">Organisateur d'événements</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        
+        <div className="space-y-3">
+          <Label htmlFor="password" className="text-base font-medium">Mot de passe</Label>
+          <div className="relative">
+            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-5 w-5" />
+            <Input 
+              id="password" 
+              type="password" 
+              required 
+              className="pl-10 py-6 rounded-lg"
+              value={formData.password}
+              onChange={handleInputChange}
+              minLength={6}
+              autoComplete="new-password"
+            />
+          </div>
+          <p className="text-xs text-gray-500">Le mot de passe doit contenir au moins 6 caractères</p>
+        </div>
+        
+        <div className="space-y-3">
+          <Label htmlFor="confirm-password" className="text-base font-medium">Confirmer le mot de passe</Label>
+          <div className="relative">
+            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-5 w-5" />
+            <Input 
+              id="confirm-password" 
+              type="password" 
+              required 
+              className="pl-10 py-6 rounded-lg"
+              value={formData.confirmPassword}
+              onChange={handleInputChange}
+              autoComplete="new-password"
+            />
+          </div>
+        </div>
+        
+        <div className="mt-8">
+          <Button 
+            type="submit" 
+            className="w-full py-6 text-base font-medium bg-amber-600 hover:bg-amber-700 rounded-lg transition-all duration-300" 
+            disabled={isLoading}
           >
-            <SelectTrigger id="userType">
-              <SelectValue placeholder="Sélectionnez votre profil" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="visitor">Visiteur / Touriste</SelectItem>
-              <SelectItem value="organizer">Organisateur d'événements</SelectItem>
-            </SelectContent>
-          </Select>
+            {isLoading ? (
+              <>
+                <Spinner className="mr-2 h-5 w-5 text-white" />
+                Inscription en cours...
+              </>
+            ) : (
+              "Créer mon compte"
+            )}
+          </Button>
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="password">Mot de passe</Label>
-          <Input 
-            id="password" 
-            type="password" 
-            required 
-            value={formData.password}
-            onChange={handleInputChange}
-            minLength={6}
-          />
-          <p className="text-xs text-muted-foreground">Le mot de passe doit contenir au moins 6 caractères</p>
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="confirm-password">Confirmer le mot de passe</Label>
-          <Input 
-            id="confirm-password" 
-            type="password" 
-            required 
-            value={formData.confirmPassword}
-            onChange={handleInputChange}
-          />
-        </div>
-        <Button 
-          type="submit" 
-          className="w-full bg-amber-600 hover:bg-amber-700 mt-6" 
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <>
-              <Spinner className="mr-2 h-4 w-4" />
-              Inscription en cours...
-            </>
-          ) : (
-            "S'inscrire"
-          )}
-        </Button>
-        <div className="text-sm text-muted-foreground text-center mt-4">
-          Vous avez déjà un compte ?{" "}
-          <Link href="/login" className="font-medium text-primary underline">
-            Se connecter
+        
+        <div className="text-center mt-6">
+          <span className="text-gray-600">Vous avez déjà un compte ? </span>
+          <Link href="/login" className="text-amber-600 hover:text-amber-700 font-medium hover:underline">
+            Se connecter ici
           </Link>
         </div>
+        
+        <p className="text-xs text-gray-500 text-center mt-6">
+          En vous inscrivant, vous acceptez nos{" "}
+          <Link href="#" className="text-amber-600 hover:underline">
+            Conditions d'utilisation
+          </Link>{" "}
+          et notre{" "}
+          <Link href="#" className="text-amber-600 hover:underline">
+            Politique de confidentialité
+          </Link>
+        </p>
       </form>
     </AuthLayout>
   )
