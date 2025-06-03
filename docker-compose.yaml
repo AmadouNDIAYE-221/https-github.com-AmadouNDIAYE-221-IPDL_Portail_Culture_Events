@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # Service de base de données
+  db:
+    image: mysql:8.0
+    container_name: ipdl-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ipdl_events
+      MYSQL_USER: ipdl_user
+      MYSQL_PASSWORD: ipdl_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - ipdl-network
+
+  # Service backend
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ipdl-backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/ipdl_events?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: ipdl_user
+      SPRING_DATASOURCE_PASSWORD: ipdl_password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SERVER_PORT: 8080
+      ALLOWED_ORIGINS: http://frontend:3000,http://localhost:3000
+    ports:
+      - "8080:8080"
+    volumes:
+      - uploads-data:/app/uploads
+    networks:
+      - ipdl-network
+
+  # Service frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ipdl-frontend
+    restart: always
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:8080
+    ports:
+      - "3000:3000"
+    networks:
+      - ipdl-network
+
+# Volumes pour la persistance des données
+volumes:
+  db-data:
+  uploads-data:
+
+# Réseau pour la communication entre les services
+networks:
+  ipdl-network:
+    driver: bridge
