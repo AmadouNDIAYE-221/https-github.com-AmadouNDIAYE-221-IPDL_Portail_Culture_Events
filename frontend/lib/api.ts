@@ -1,7 +1,7 @@
 import { getCookie, setCookie, deleteCookie } from 'cookies-next';
 
 // Base API URL - change this to match your backend server URL
-export const API_BASE_URL = 'http://localhost:8080';
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
 // Authentication token management
 const getAuthToken = () => getCookie('auth_token') as string | undefined;
