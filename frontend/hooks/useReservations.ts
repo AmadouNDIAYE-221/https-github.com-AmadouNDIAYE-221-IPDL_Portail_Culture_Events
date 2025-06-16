@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from "@/lib/api";
 import { reservationService, authService } from '@/lib/api';
 
 export interface Reservation {
@@ -89,7 +90,7 @@ export function useReservations() {
               // Si c'est une URL relative qui commence par /api
               if (eventData.imageUrl.startsWith('/api')) {
                 // Remplacer par l'URL du backend (port 8080)
-                imageUrl = `http://localhost:8080${eventData.imageUrl}`;
+                imageUrl = `${API_BASE_URL}${eventData.imageUrl}`;
               } 
               // Sinon, si c'est une autre URL relative
               else if (eventData.imageUrl.startsWith('/')) {

@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Label } from "@/components/ui/label"
 import { useState, useEffect } from "react"
-import { destinationService, eventService } from "@/lib/api"
+import { destinationService, eventService, API_BASE_URL } from "@/lib/api"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useRouter } from "next/navigation"
 import { format, formatDistanceToNow, isPast, isToday, isTomorrow } from 'date-fns'
@@ -248,7 +248,7 @@ export default function Home() {
                         src={upcomingEvents[0].imageUrl && upcomingEvents[0].imageUrl.startsWith('http') 
                           ? upcomingEvents[0].imageUrl 
                           : upcomingEvents[0].imageUrl 
-                            ? `http://localhost:8080${upcomingEvents[0].imageUrl}` 
+                            ? `${API_BASE_URL}${upcomingEvents[0].imageUrl}` 
                             : "/images/event-placeholder.jpg"}
                         width={600}
                         height={600}
@@ -442,7 +442,7 @@ export default function Home() {
                   const imageUrl = event.imageUrl && event.imageUrl.startsWith('http') 
                     ? event.imageUrl 
                     : event.imageUrl 
-                      ? `http://localhost:8080${event.imageUrl}` 
+                      ? `${API_BASE_URL}${event.imageUrl}` 
                       : "/images/event-placeholder.jpg";
                       
                   return (
@@ -578,7 +578,7 @@ export default function Home() {
                   const imageUrl = destination.image && destination.image.startsWith('http') 
                     ? destination.image 
                     : destination.image 
-                      ? `http://localhost:8080${destination.image}` 
+                      ? `${API_BASE_URL}${destination.image}` 
                       : "/placeholder.svg?height=500&width=400";
                       
                   // Déterminer la description à afficher

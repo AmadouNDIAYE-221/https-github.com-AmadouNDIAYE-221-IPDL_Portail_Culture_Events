@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { API_BASE_URL } from "@/lib/api"
 import Link from "next/link"
 import Image from "next/image"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
@@ -166,7 +167,7 @@ export function EventList({
               <div className="aspect-video overflow-hidden">
                 <Image
                   src={event.imageUrl ? 
-                      (event.imageUrl.startsWith('http') ? event.imageUrl : `http://localhost:8080${event.imageUrl}`) 
+                      (event.imageUrl.startsWith('http') ? event.imageUrl : `${API_BASE_URL}${event.imageUrl}`) 
                       : "/images/event-placeholder.jpg"}
                   alt={event.title}
                   width={600}
