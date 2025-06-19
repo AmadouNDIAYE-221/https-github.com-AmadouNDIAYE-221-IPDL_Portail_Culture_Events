@@ -10,7 +10,13 @@ docker login
 
 REM Construire les images
 echo Construction des images Docker...
-docker build -t %DOCKER_USERNAME%/ipdl-frontend:latest .\frontend
+
+REM Demander éventuellement l'URL de l'API, valeur par défaut http://localhost:8080
+set "API_URL_INPUT=http://localhost:8080"
+set /p API_URL_INPUT="Entrez l'URL de l'API pour NEXT_PUBLIC_API_URL (^%API_URL_INPUT% par défaut^) : "
+if "%API_URL_INPUT%"=="" set "API_URL_INPUT=http://localhost:8080"
+
+docker build --build-arg API_URL=%API_URL_INPUT% -t %DOCKER_USERNAME%/ipdl-frontend:latest .\frontend
 docker build -t %DOCKER_USERNAME%/ipdl-backend:latest .\backend
 
 REM Pousser les images vers DockerHub

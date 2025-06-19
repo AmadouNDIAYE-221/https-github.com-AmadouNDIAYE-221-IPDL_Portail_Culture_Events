@@ -15,7 +15,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Set the correct API URL for production
-ENV NEXT_PUBLIC_API_URL=http://backend:8080
+ARG API_URL=http://backend:8080
+ENV NEXT_PUBLIC_API_URL=${API_URL}
 
 # Build the application
 RUN npm run build
