@@ -5,20 +5,50 @@ Ce document détaille la procédure complète pour installer et exécuter l'appl
 ## Pour un autre utilisateur (Procédure simplifiée)
 
 ### Prérequis
-- Docker Desktop installé sur la machine
+- **Aucune installation de Node.js, Java ou dépendance n'est requise !**
+- Installer uniquement **Docker Desktop** sur la machine (Windows/Mac/Linux)
 
 ### Étapes d'installation
 
-1. **Recevoir les fichiers**
-   - Demandez à votre utilisateur de créer un dossier sur son ordinateur
-   - Envoyez-lui les fichiers suivants :
-     - `docker-compose-prod.yaml` (généré après avoir exécuté le script docker-push.bat)
-     - `README-DEPLOIEMENT.md`
+1. **Recevoir le fichier**
+   - Créez un dossier sur votre ordinateur (ex: `ipdl-app`)
+   - Placez-y le fichier `docker-compose-prod.yaml` fourni par l'administrateur
 
-2. **Lancement de l'application**
-   - Votre utilisateur doit simplement ouvrir un terminal dans le dossier contenant les fichiers
-   - Exécuter la commande : `docker-compose -f docker-compose-prod.yaml up -d`
-   - Accéder à l'application via http://localhost:3000
+2. **Lancer l'application**
+   - Ouvrez un terminal (Invite de commandes, PowerShell ou Terminal)
+   - Placez-vous dans le dossier créé
+   - Exécutez :
+     ```bash
+     docker-compose -f docker-compose-prod.yaml up -d
+     ```
+   - Accédez à l'application via http://localhost:3000
+
+### Mise à jour de l'application
+
+Si l'administrateur vous envoie un nouveau fichier `docker-compose-prod.yaml` (ou publie une nouvelle version) :
+   1. Remplacez l'ancien fichier par le nouveau
+   2. Exécutez :
+     ```bash
+     docker-compose -f docker-compose-prod.yaml pull
+     docker-compose -f docker-compose-prod.yaml up -d
+     ```
+
+### Dépannage courant
+
+- Pour voir les logs :
+  ```bash
+  docker-compose -f docker-compose-prod.yaml logs
+  ```
+- Pour arrêter l'application :
+  ```bash
+  docker-compose -f docker-compose-prod.yaml down
+  ```
+- Pour réinitialiser la base de données (efface toutes les données) :
+  ```bash
+  docker-compose -f docker-compose-prod.yaml down -v
+  docker-compose -f docker-compose-prod.yaml up -d
+  ```
+Si un problème persiste, contactez l'administrateur !
 
 ## Pour vous (Préparation avant partage)
 

@@ -1,5 +1,20 @@
 # IPDL Portail Culture Events
 
+## 🚀 Déploiement rapide pour utilisateur final
+
+Pour utiliser l’application **sans accès au code source** :
+- Installez Docker Desktop
+- Placez le fichier `docker-compose-prod.yaml` fourni dans un dossier
+- Ouvrez un terminal dans ce dossier puis lancez :
+  ```bash
+  docker-compose -f docker-compose-prod.yaml up -d
+  ```
+- Accédez à l’application sur http://localhost:3000
+
+**Aucune installation de Node.js, Java ou dépendance n’est requise !**
+
+---
+
 ## 📝 Description
 
 IPDL Portail Culture Events est une plateforme complète de gestion d'événements culturels au Sénégal. Cette application permet aux organisateurs de créer et gérer des événements culturels, aux visiteurs de découvrir des destinations touristiques et culturelles, et de participer à des événements organisés dans ces lieux.

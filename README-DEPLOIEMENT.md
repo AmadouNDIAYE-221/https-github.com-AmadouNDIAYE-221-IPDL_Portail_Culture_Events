@@ -1,6 +1,6 @@
 # Guide de déploiement rapide - IPDL Portail Culture Events
 
-Ce guide te permettra d'installer et d'exécuter facilement l'application IPDL Portail Culture Events sur ton ordinateur.
+Ce guide explique comment déployer et utiliser l’application **sans avoir besoin du code source** : il suffit d’utiliser le fichier `docker-compose-prod.yaml` fourni et Docker Desktop.
 
 ## Prérequis
 
@@ -24,7 +24,7 @@ Ce guide te permettra d'installer et d'exécuter facilement l'application IPDL P
 
 1. Crée un nouveau dossier sur ton ordinateur pour l'application
 
-2. Place le fichier `docker-compose-prod.yaml` que je t'ai envoyé dans ce dossier
+2. Place le fichier `docker-compose-prod.yaml` fourni par l’administrateur dans ce dossier
 
 3. Ouvre un terminal (Invite de commandes, PowerShell ou Terminal)
 
@@ -42,22 +42,33 @@ Ce guide te permettra d'installer et d'exécuter facilement l'application IPDL P
 
 7. Accède à l'application dans ton navigateur : http://localhost:3000
 
-## Commandes utiles
+## Mise à jour de l’application
 
-- Pour voir les logs de l'application :
-  ```
+Si tu reçois un nouveau fichier `docker-compose-prod.yaml` (ou que l’administrateur publie une mise à jour) :
+   1. Remplace l’ancien fichier par le nouveau
+   2. Exécute :
+      ```bash
+      docker-compose -f docker-compose-prod.yaml pull
+      docker-compose -f docker-compose-prod.yaml up -d
+      ```
+
+## Dépannage rapide
+
+- Voir les logs :
+  ```bash
   docker-compose -f docker-compose-prod.yaml logs
   ```
-
-- Pour arrêter l'application :
-  ```
+- Arrêter l’application :
+  ```bash
   docker-compose -f docker-compose-prod.yaml down
   ```
-
-- Pour redémarrer l'application après l'avoir arrêtée :
-  ```
+- Réinitialiser la base de données (efface toutes les données) :
+  ```bash
+  docker-compose -f docker-compose-prod.yaml down -v
   docker-compose -f docker-compose-prod.yaml up -d
   ```
+
+Si tu rencontres un problème, contacte l’administrateur.
 
 ## Problèmes courants
 
